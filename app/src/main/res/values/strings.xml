@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">BottomNavigationViewBehavior</string>
+    <string-array name="cake_names">
+        <item>Candy Cane Forest Cake</item>
+        <item>Stained Glass Cake</item>
+        <item>Candied Pretzel Cake</item>
+        <item>Pine Tree Forest Cake</item>
+        <item>Christmas Tree Sheet Cake</item>
+        <item>Candy Cane Peppermint and White Chocolate Swirl Cake</item>
+        <item>Ugly Christmas Sweater Cake</item>
+        <item>Chocolate Peppermint Holiday Cake</item>
+        <item>Eggnog Cake</item>
+        <item>Ferrero Rocher Cake</item>
+        <item>Pomegranate Christmas Cake</item>
+        <item>Chocolate Pine Cones</item>
+        <item>Almond Honey Cake with Strawberry Ripple Cream</item>
+        <item>Italian Cream Cake</item>
+        <item>Sparking Cranberry White Chocolate Cake</item>
+        <item>Gingersnap Spice Cake</item>
+        <item>Chocolate Meringue Cake with Fresh Berries</item>
+        <item>Chocolate Raspberry Mousse Cake</item>
+        <item>S\'mores Layered Cake</item>
+        <item>Forêt Noire</item>
+        <item>Blue Velvet Coconut Torte</item>
+    </string-array>
+</resources>

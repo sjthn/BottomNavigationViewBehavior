@@ -34,6 +34,8 @@ import android.view.View;
 
 public class BottomNavigationViewBehavior extends CoordinatorLayout.Behavior<BottomNavigationView> {
 
+    private boolean isVisible = true;
+
     private int height;
     private int totalConsumed = 0;
 
@@ -54,19 +56,53 @@ public class BottomNavigationViewBehavior extends CoordinatorLayout.Behavior<Bot
         if (dyConsumed < 0) {
             // Scroll to top
             if (totalConsumed >= height) {
-                child.clearAnimation();
-                child.animate().translationY(0).setDuration(200);
+                slideUp(child);
                 totalConsumed = 0;
+                isVisible = true;
             }
         } else {
             // Scroll to bottom
-            if (totalConsumed >= height) {
-                child.clearAnimation();
-                child.animate().translationY(height).setDuration(200);
+            if (isVisible && totalConsumed >= height) {
+                slideDown(child);
                 totalConsumed = 0;
+                isVisible = false;
             }
         }
         totalConsumed += absDy;
+    }
+
+    @Override
+    public boolean onNestedFling(CoordinatorLayout coordinatorLayout, BottomNavigationView child, View target, float velocityX, float velocityY, boolean consumed) {
+        if (consumed) {
+            if (velocityY < 0) {
+                // Fling to top
+                if (!isVisible) {
+                    slideUp(child);
+                    totalConsumed = 0;
+                    isVisible = true;
+                    return true;
+                }
+            } else {
+                // Fling to bottom
+                if (isVisible) {
+                    slideDown(child);
+                    totalConsumed = 0;
+                    isVisible = false;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void slideUp(BottomNavigationView child) {
+        child.clearAnimation();
+        child.animate().translationY(0).setDuration(200);
+    }
+
+    private void slideDown(BottomNavigationView child) {
+        child.clearAnimation();
+        child.animate().translationY(height).setDuration(200);
     }
 
 }

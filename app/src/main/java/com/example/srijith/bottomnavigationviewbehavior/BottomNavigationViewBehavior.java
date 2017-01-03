@@ -26,6 +26,7 @@ package com.example.srijith.bottomnavigationviewbehavior;
 
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 /**
@@ -34,10 +35,7 @@ import android.view.View;
 
 public class BottomNavigationViewBehavior extends CoordinatorLayout.Behavior<BottomNavigationView> {
 
-    private boolean isVisible = true;
-
     private int height;
-    private int totalConsumed = 0;
 
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, BottomNavigationView child, int layoutDirection) {
@@ -47,52 +45,16 @@ public class BottomNavigationViewBehavior extends CoordinatorLayout.Behavior<Bot
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, BottomNavigationView child, View directTargetChild, View target, int nestedScrollAxes) {
-        return true;
+        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, BottomNavigationView child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        int absDy = Math.abs(dyConsumed);
-        if (dyConsumed < 0) {
-            // Scroll to top
-            if (totalConsumed >= height) {
-                slideUp(child);
-                totalConsumed = 0;
-                isVisible = true;
-            }
-        } else {
-            // Scroll to bottom
-            if (isVisible && totalConsumed >= height) {
-                slideDown(child);
-                totalConsumed = 0;
-                isVisible = false;
-            }
+        if (dyConsumed > 0) {
+            slideDown(child);
+        } else if (dyConsumed < 0) {
+            slideUp(child);
         }
-        totalConsumed += absDy;
-    }
-
-    @Override
-    public boolean onNestedFling(CoordinatorLayout coordinatorLayout, BottomNavigationView child, View target, float velocityX, float velocityY, boolean consumed) {
-        if (consumed) {
-            if (velocityY < 0) {
-                // Fling to top
-                if (!isVisible) {
-                    slideUp(child);
-                    totalConsumed = 0;
-                    isVisible = true;
-                    return true;
-                }
-            } else {
-                // Fling to bottom
-                if (isVisible) {
-                    slideDown(child);
-                    totalConsumed = 0;
-                    isVisible = false;
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private void slideUp(BottomNavigationView child) {
